@@ -1,6 +1,6 @@
 package tutorial;
 
-option java_package = "com.example.tutorial";
+option java_package = "com.blogspot.happygilmor89.protobuf.tutoral";
 option java_outer_classname = "AddressBookProtos";
 
 message Person {
