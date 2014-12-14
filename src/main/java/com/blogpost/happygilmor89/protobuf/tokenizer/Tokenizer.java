@@ -3,32 +3,33 @@ package com.blogpost.happygilmor89.protobuf.tokenizer;
 import com.blogpost.happygilmor89.protobuf.tutoral.AddressBookProtos;
 import com.google.protobuf.Descriptors;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Created by HG89 on 14.12.2014.
  */
 public class Tokenizer {
-    public static String tokenize(com.google.protobuf.GeneratedMessage.Builder builder) {
+    public static Set<Descriptors.FieldDescriptor> tokenize(com.google.protobuf.GeneratedMessage.Builder builder) {
 
-        Descriptors.Descriptor descriptorForType = builder.getDescriptorForType();
-        System.out.println("===Fields: ");
-        for (Descriptors.FieldDescriptor fieldDescriptor : descriptorForType.getFields()) {
-            System.out.println(fieldDescriptor.getFullName());
+        Set<Descriptors.FieldDescriptor> descriptorSet = new HashSet<Descriptors.FieldDescriptor>();
+        Descriptors.FileDescriptor file = builder.getDescriptorForType().getFile();
+        for (Descriptors.Descriptor descriptor : file.getMessageTypes()) {
+            for (Descriptors.FieldDescriptor fieldDescriptor : descriptor.getFields()) {
+                System.out.print("Name " + fieldDescriptor.getName());
+                System.out.print("; Type " + fieldDescriptor.getType());
+                System.out.print("; Repeated " + fieldDescriptor.isRepeated());
+                descriptorSet.add(fieldDescriptor);
+                System.out.println();
+            }
         }
+        return descriptorSet;
+    }
 
-        System.out.println("===Extensions: ");
-        for (Descriptors.FieldDescriptor extension : descriptorForType.getExtensions()) {
-            System.out.println(extension.getFullName());
-        }
-
-        System.out.println("===EnumDescriptors: ");
-        for (Descriptors.EnumDescriptor enumDescriptor: descriptorForType.getEnumTypes()) {
-            System.out.println(enumDescriptor.getFullName());
-        }
-
-        return null;
+    public static String tokenize(Descriptors.FieldDescriptor descriptor) {
+        return descriptor.getName() + " ";
     }
 
     public static void main(String[] args) {
