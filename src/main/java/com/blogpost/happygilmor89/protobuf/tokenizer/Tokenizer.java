@@ -4,12 +4,11 @@ import com.blogpost.happygilmor89.protobuf.tutoral.AddressBookProtos;
 import com.google.protobuf.Descriptors;
 
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
  * Created by HG89 on 14.12.2014.
+ *
  */
 public class Tokenizer {
     public static Set<Descriptors.FieldDescriptor> tokenize(com.google.protobuf.GeneratedMessage.Builder builder) {
@@ -26,10 +25,6 @@ public class Tokenizer {
             }
         }
         return descriptorSet;
-    }
-
-    public static String tokenize(Descriptors.FieldDescriptor descriptor) {
-        return descriptor.getName() + " ";
     }
 
     public static void main(String[] args) {
