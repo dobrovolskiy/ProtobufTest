@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 
 public class SimpleTableExample extends JFrame {
     private JTable table;
-    private String[][] dataValues;
 
     // Constructor of main frame
     public SimpleTableExample() {
@@ -17,6 +16,7 @@ public class SimpleTableExample extends JFrame {
         setTitle("Simple Table Application");
         setSize(300, 200);
         setBackground(Color.gray);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Create a panel to hold all other components
         JPanel topPanel = new JPanel();
@@ -27,7 +27,7 @@ public class SimpleTableExample extends JFrame {
         String columnNames[] = {"Id", "Value"};
 
         // Create a new table instance
-        dataValues = new String[][]{{"0", "Date 0"}};
+        String[][] dataValues = new String[][]{{"0", "Date 0"}};
         DefaultTableModel model = new DefaultTableModel(dataValues, columnNames);
         table = new JTable(model);
 
@@ -45,23 +45,21 @@ public class SimpleTableExample extends JFrame {
         ExecutorService service = Executors.newCachedThreadPool();
         service.execute(new Runnable() {
             public void run() {
-                while (true) {
-                    String[][] values = mainFrame.getDataValues();
+                int counter = 0;
+                while (counter < 10) {
+
                     DefaultTableModel model = (DefaultTableModel) mainFrame.table.getModel();
-                    model.addRow(new String[]{values.length + "", new Date().toString()});
+                    model.addRow(new String[]{model.getRowCount() + "", new Date().toString()});
                     model.fireTableDataChanged();
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         throw new RuntimeException(e);
                     }
+                    counter++;
                 }
             }
         });
-    }
-
-    public String[][] getDataValues() {
-        return dataValues;
     }
 }
